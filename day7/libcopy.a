@@ -1,0 +1,42 @@
+!<arch>
+copy_file.c/    0           0     0     644     710       `
+#include<stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>  
+#include <unistd.h>
+#include <stdlib.h>
+
+
+int main(int argc,char const*argv[])
+{
+
+unsigned char buff[128];
+int fd,fp;
+ssize_t n_bytes;
+fd =open(argv[1],O_WRONLY|O_CREAT , S_IRUSR|S_IWUSR);
+if(-1==fd)
+{
+    perror("error");
+    exit(EXIT_FAILURE); 
+}
+write(fd,"jayesh\n",13);
+close(fd);
+fd =open(argv[1],O_RDONLY|O_CREAT , S_IRUSR|S_IWUSR);
+if(-1==fd)
+{
+    perror("error");
+    exit(EXIT_FAILURE); 
+}
+n_bytes=read(fd,buff,128);
+fp =open(argv[2],O_WRONLY |O_CREAT,S_IRUSR|S_IWUSR);
+if(fp==-1)
+{
+   perror("error is coming in write function");
+   exit(EXIT_FAILURE);
+}
+write(fp,buff,n_bytes);
+close(fd);
+close(fp);
+return 0;
+} 
